@@ -1,0 +1,35 @@
+{
+	"manifest_version": 2,
+
+	"name": "Vocab Grabber",
+	"version": "0.1",
+	"description": "Stores the words you looked up on Google's dictionary",
+
+	"permissions": ["activeTab", "storage"],
+
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+
+	"content_scripts": [{
+		"matches": ["https://www.google.com/search*"],
+		"js": ["content.js"]
+	}]
+}
+
+
+// "commands": {
+
+// },
+
+// "icons": {
+//     "16": "test1/images/get_started16.png",
+//     "32": "test1/images/get_started32.png",
+//     "48": "test1/images/get_started48.png",
+//     "128": "test1/images/get_started128.png"
+// }
