@@ -1,23 +1,16 @@
-
-1. if on google dictionary, page action shows the google dictionary text. otherwise shows nothing
-2. store the date and text when a word is searched
-3. display the list of words and their last accesse date when popup is clicked (a long scrolling list)
-4. separate the list into new words and review words
-5. 
-
+WHAT IT DO?
+- Automaticaly adds whatever google searched dictionary word
+to a list and saves the last searched date.
+- The list is demarcated by new words and words you have learned before.
+- You can also edit the list of words and copy it to your clipboard.
 
 
+FUTURE UPGRADE
+- network requests dont activate content.js
+- make a "death list" to never add this word to any list 
+- automatically opens the more definitions button
+- play the audio of the word when you load up the page
+- clears and selects search bar for you
 
-
-FUTURE UPGRADES
-=> only add a word if it is above a certain percentage on google books ngram viewer
-=> automatically opens the *more definitions button, clears and selects search bar for you
-=> keyboard shortcut to search a highlighted term on a website 
-
-
-THIS IS THE MENU THAT SHOWS UP WHEN YOU RIGHT CLICK ON A WEBPAGE
-chrome.contextMenus.create({});
-
-background script runs in a separarate webpage. use it to define listeners. this is where it detects button presses and stuff
-content scripts run on the website, like injection.
-you can send messages between these two pages with chrome.message
+- keyboard shortcut to search a highlighted term on a website 
+- only add a word if it is above a certain percentage on google books ngram viewer

@@ -5,23 +5,23 @@
   <head>
     <style>
       table{
-        border-style: double;
         width: 300px;
       }
-      h3, p{
-        display: inline;
+      tr{
+        border: 1px solid black;
       }
-      h3{
-        text-align: left;
-      }
-      p{
-        text-align: right;
+      table{
+        border-collapse: collapse;
       }
       tr{
-        width: 150px;
         height: 25px;
-        border-style: dotted;
-        margin: 5px;
+      }
+      td{
+        text-align: center;
+      }
+      td button{
+        height: 16px;
+        background-color: red;
       }
     </style>
     
@@ -32,12 +32,19 @@
     <h1>Vocab words!</h1>
 
     <button id="clearActive">Clear Active</button>
+    
+    <button id="copyAll">Copy</button>
+
     <button id="clearAll">Clear All</button>
 
-    <table id="newWords">
+    <h3>New Words</h3>
+
+    <table id="new">
     </table>
 
-    <table id="oldWords">
+    <h3>Old Words</h3>
+
+    <table id="old">
     </table>
 
     <script src="popup.js"></script>

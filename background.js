@@ -7,27 +7,21 @@ if they were cleared to shit
 
 chrome.runtime.onInstalled.addListener(function() {
 
-	chrome.storage.sync.get(['activeWords', 'storedWords'], function(data){
+	chrome.storage.sync.get(null, function(data){
 
-		var aW = data.activeWords, sW = data.storedWords;
+		var aW = data.active, 
+			sW = data.stored, lC = data.since;
 
-		if (aW == undefined){
-			alert("populating aw");
-			aW = {'new':[],'old':[]};
-		}
-
-		if (sW == undefined){
-			alert("populating sw");
-			sW = {};
-		}
+		if (sW == undefined) sW = {};
+		if (aW == undefined) aW = {};
+		if (lC == undefined) lC = new Date().valueOf();
 
 		chrome.storage.sync.set({
-			'activeWords': aW,
-			'storedWords': sW
+			'since': lC,
+			'active': aW,
+			'stored': sW
 		});
 
 	});
 	
 });
-
-

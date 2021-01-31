@@ -6,69 +6,71 @@ as defined in the manifest
 
 */
 
+// these variabless have to be on the top to work 
+// for sosme reaso
+
+// the 'Dictionary' title
+var dClassName = "hide-focus-ring zbA8Me gJBeNe NjNcGc vSuuAd mfMhoc";
+var dObj = document.getElementsByClassName(dClassName);
+
+// the word looked up
+var wClassName = "XcVN5d"; // DgZBFd
+var wObj = document.getElementsByClassName(wClassName);
+
+
 if (dictionaryExists()){
 
-	chrome.storage.sync.get(['storedWords', 'activeWords'], function(data){
+	chrome.storage.sync.get(null, function(data){
 
-		var word = getWord();
-		var addListName = 'old';
-		if (data.storedWords[word] == undefined){
-			addListName = 'new';
-		}
+		var word = getWord(), 
+			now = new Date().valueOf(),
+			activeDate = now,
+			sW = data.stored, 
+			aW = data.active,  
+			lC = data.since;
 
-		var sW = data.storedWords, aW = data.activeWords;
-		if (sW == undefined) sW = {};
-		if (aW == undefined) aW = {'new':[],'old':[]};
-		sW[word] = getDateString();
-		if (aW[addListName].includes(word) == false){
-			aW[addListName].push(word);
-		}
+
+		// the last accessed date of the word to be added
+		// should be stored if it is already seen
+		if (sW[word] != undefined)
+			activeDate = sW[word];
+
+		// update the list of words that we seen already
+		sW[word] = now;
+
+		// only add the word on the active list
+		// if this word isn't already inside the list
+		var add = true;
+		for (var key in aW)
+			if (aW[key] == word)
+				add = false;
+		if (add)
+			aW[activeDate] = word;
+
 
 		chrome.storage.sync.set({
-			'activeWords': aW,
-			'storedWords': sW
+			'since': lC,
+			'active': aW,
+			'stored': sW
 		});
 
 	});
 
-} 
-
-
-/* HOW DATA IS STORED
-
-{
-	activeWords: {
-		"new": ["word1", "word2"],
-		"old": ["word3"]
-	},
-
-	storedWords: {
-		"word1": "last-accessed-date",
-		"word2": "last-accessed-date",
-		"word3": "last-accessed-date"
-	}
 }
 
-activeWords are the words that they user is learning this week/period
-storedWords are all the words learned in history
-
-new and review is distinguished whether or not there is an entry in the
-list before
-*/
 
 
 
 function dictionaryExists(){
-	var dClassName = "hide-focus-ring zbA8Me gJBeNe NjNcGc vSuuAd mfMhoc";
-	return document.getElementsByClassName(dClassName).length == 1 && 
-		document.getElementsByClassName(dClassName)[0].innerHTML === "Dictionary";
+	return dObj.length == 1 &&
+		dObj[0].innerHTML === "Dictionary" && 
+		wObj.length > 0 &&
+		wObj[0].children.length > 0; 
 }
 
 function getWord(){
-	var wClassName = "XcVN5d"; // DgZBFd
-	return document.getElementsByClassName(wClassName)[0].children[0].innerText;
+	return wObj[0].children[0].innerText.replace(/·/g, '');
 }
 
-function getDateString(){
-	return new Date().toString().split(" ").slice(1, 4).join(" ");
-}
+
+
