@@ -6,6 +6,7 @@ to a list and saves the last searched date.
 
 
 FUTURE UPGRADE
+- small bug in the time since last accessed to fix
 - network requests dont activate content.js
 - make a "death list" to never add this word to any list 
 - automatically opens the more definitions button
