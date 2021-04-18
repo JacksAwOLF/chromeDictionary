@@ -7,6 +7,7 @@ WHAT IT DO?
 - You can also edit the list of words and copy it to your clipboard. 
 
 FUTURE UPGRADES
+
 - network requests dont activate content.js
 - make a "death list" to never add this word to any list 
 - (keyboard shortcut?) clears and selects search bar for you
