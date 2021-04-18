@@ -7,22 +7,47 @@
       table{
         width: 300px;
       }
-      tr{
+
+      tr > div{
         border: 1px solid black;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        display: flex;
       }
+
       table{
         border-collapse: collapse;
       }
-      tr{
-        height: 25px;
-      }
-      td{
-        text-align: center;
-      }
-      td button{
+
+
+      .xbutton{
+        width: 16px;
         height: 16px;
         background-color: red;
       }
+
+      .morebutton{
+        width: 10px;
+        height: 20px;
+        background-color: greenyellow;
+      }
+
+      button{
+      }
+
+      tr h4{
+        flex: 1 0 50%;
+      }
+
+      tr{
+        text-align: center;
+      }
+
+      .wordp{
+        flex: 1 0 100%;
+      }
+
+
     </style>
     
   </head>

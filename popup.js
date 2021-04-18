@@ -8,10 +8,11 @@ is clicked.
 */
 
 
-
 chrome.storage.sync.get(['active', 'since'], loadWords);
 
 function loadWords(data){
+
+	console.log(data.active);
 
 	clearTableEntries();
 
@@ -27,10 +28,21 @@ function loadWords(data){
 		if (list[i] < data.since)
 			tableId = 'old';
 
+		var id = [tableId, i.toString()].join('_');
+
+		// make the definition button
+		var mButton = document.createElement('button'),
+			mButtonTD = document.createElement("td");
+		mButton.onclick = getDefinition;
+		mButton.setAttribute('class', 'morebutton');
+		mButton.setAttribute('id', id+' mbutt');
+		mButtonTD.appendChild(mButton);
+
 		// make the word
 		var text = document.createElement("h4"),
 			textTD = document.createElement("td");
 		text.innerText = data.active[list[i]];
+		text.setAttribute('id', id+' word');
 		textTD.appendChild(text);
 
 		// make the date
@@ -44,28 +56,85 @@ function loadWords(data){
 		var xButton = document.createElement('button'),
 			xButtonTD = document.createElement("td");
 		xButton.onclick = removeWord;
+		xButton.setAttribute('class', 'xbutton');
+		xButton.setAttribute('id', id+' xbutt');
 		xButtonTD.appendChild(xButton);
 
+		// make the definition text
+		var wordP = document.createElement('p');
+		wordP.setAttribute('id', id+' wordp');
+		wordP.setAttribute('class', 'wordp');
+
 		// make the row
-		var wordObj = document.createElement("tr");
-		wordObj.appendChild(textTD);
-		wordObj.appendChild(dateTD);
-		wordObj.appendChild(xButtonTD);
-		wordObj.setAttribute('data-index', [tableId, i.toString()].join(' '));
-		document.getElementById(tableId).appendChild(wordObj);
+		var wordObj = document.createElement("div");
+		wordObj.appendChild(mButton);
+		wordObj.appendChild(text);
+		wordObj.appendChild(date);
+		wordObj.appendChild(xButton);
+		wordObj.appendChild(document.createElement('br'));
+		wordObj.appendChild(wordP);
+		wordObj.setAttribute('data-index', id);
+
+		var wordTR = document.createElement('tr');
+		wordTR.appendChild(wordObj);
+		document.getElementById(tableId).appendChild(wordTR);
+
+
 	}
 
 
 }
 
 
+// todo: make this a php file 
+// so we don't expose the credentials and stuff
+function getDefinition(arg){
+
+	var endpoint = "entries";
+	var language_code = "en-us";
+	var wordId = getWordIdFromId(arg.target.getAttribute('id'));
+	var word = document.getElementById(wordId + " word").innerText;
+
+	var wordP = document.getElementById(wordId + " wordp");
+
+	if (wordP.innerText != ""){
+		wordP.innerText = "";
+		return;
+	}
+		
+	var url = "https://od-api.oxforddictionaries.com/api/v2/";
+	url += endpoint + "/" + language_code + "/" + word.toLowerCase();
+	url += "?fields=definitions";
+	var app_id = '0816eb35';
+	var app_key = 'ae7760177c7934912644b8ce257ba83c';
+
+	var http = new XMLHttpRequest();
+	http.open("GET", url);
+	http.setRequestHeader('app_id', app_id);
+	http.setRequestHeader('app_key', app_key);
+	http.send(null);
+
+	var wordP = document.getElementById(wordId + " wordp");
+	wordP.innerText = "";
+
+	http.onload = function(){
+		var data = JSON.parse(http.responseText);
+		data['results'][0]['lexicalEntries'].forEach((item, index) => {
+			var cate = item['lexicalCategory']['text'];
+			var defi = item['entries'][0]['senses'][0]['definitions'][0];
+			wordP.innerText += cate + ": " + defi + '\n';
+		});
+	}
+}
 
 
 // this is rather inefficient
 // but it should't happen very often
 // and when i say inefficient its like max 80 words
 function removeWord(arg){
-	var word = arg.target.parentElement.parentElement.children[0].innerText;
+	var wordId = getWordIdFromId(arg.target.getAttribute('id'))
+	var word = documet.getElementById(wordId + " word").innerText;
+
 	chrome.storage.sync.get(['active', 'since'], function(data){
 		var aW = data.active;
 		for (var key in aW)
@@ -75,10 +144,12 @@ function removeWord(arg){
 		chrome.storage.sync.set({'active': aW}, function(){
 			loadWords(data);	
 		});
-	});	
+	});
 }
 
-
+function getWordIdFromId(id){
+	return id.split(" ")[0];
+}
 
 
 // a and b are milliseconds
@@ -141,3 +212,8 @@ function clearTableEntries(){
 	document.getElementById('new').innerHTML = '';
 	document.getElementById('old').innerHTML = '';
 }
+
+
+
+
+
