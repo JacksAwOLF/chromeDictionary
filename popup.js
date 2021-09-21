@@ -160,18 +160,16 @@ function getWordIdFromId(id){
 // return differnce between them
 // in string fromat
 function dateDiffStr(a, b){
-	var div = [60, 60, 24, 7, 52, 9999];
-	var nam = ['Second', 'Minute', 'Hour', 'Day', 'Week', 'Year'];
-	a = parseInt(a/1000);
-	b = parseInt(b/1000);
-	for (var i in div){
-		var na = parseInt(a/div[i]), 
-			nb = parseInt(b/div[i]);
-		if (na == nb){
-			if (b-a != 1) nam[i] += 's';
-			return (b-a).toString() + " " + nam[i];
+	let div = [60,       60,       24,     7,     52,     9999];
+	let nam = ['Second', 'Minute', 'Hour', 'Day', 'Week', 'Year'];
+
+	let diff = parseInt((b-a)/1000);
+	for (let i=0; i<div.length; i++){
+		if (diff < div[i]) {
+			if (diff !== 1) nam[i] += 's';
+			return diff.toString() + ' ' + nam[i];
 		}
-		a = na; b = nb;
+		diff = parseInt(diff / div[i]);
 	}
 
 	return 'Too long ago...';
