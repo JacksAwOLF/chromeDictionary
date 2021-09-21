@@ -13,11 +13,11 @@ as defined in the manifest
 // the 'Dictionary' title
 //var dClassName = "zbA8Me gJBeNe NjNcGc vSuuAd mfMhoc";
 // zbA8Me gJBeNe NjNcGc mfMhoc
-var dClassName = "zbA8Me gJBeNe";
+var dClassName = "vbr5i gJBeNe";
 var dObj = document.getElementsByClassName(dClassName);
 
 // the word looked up
-var wClassName = "XcVN5d"; // DgZBFd
+var wClassName = "DgZBFd c8d6zd ya2TWb";// "XcVN5d"; // DgZBFd
 var wObj = document.getElementsByClassName(wClassName);
 
 // the definition of the word

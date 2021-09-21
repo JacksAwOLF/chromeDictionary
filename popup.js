@@ -179,7 +179,7 @@ function dateDiffStr(a, b){
 
 document.getElementById("copyAll").onclick = function(){
 	chrome.storage.sync.get(['active'], function(data){
-		var text = Object.values(data.active).join(' ');
+		var text = Object.values(data.active).join(',');
 		if (navigator.clipboard)
 			navigator.clipboard.writeText(text);
 		else alert("clipboard feature not available");
