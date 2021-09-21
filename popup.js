@@ -19,6 +19,9 @@ function loadWords(data){
 	var list = Object.keys(data.active).sort(),
 		tableId = 'new';
 
+	// display the number of active entries on the page
+	document.getElementById("title").innerText += " " + Object.keys(data.active).length
+
 	// loop from most recent words to most distant
 	for (var i=list.length-1; i>=0; i--){
 
