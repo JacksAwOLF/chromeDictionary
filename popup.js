@@ -133,7 +133,7 @@ function getDefinition(arg){
 // and when i say inefficient its like max 80 words
 function removeWord(arg){
 	var wordId = getWordIdFromId(arg.target.getAttribute('id'))
-	var word = documet.getElementById(wordId + " word").innerText;
+	var word = document.getElementById(wordId + " word").innerText;
 
 	chrome.storage.sync.get(['active', 'since'], function(data){
 		var aW = data.active;
